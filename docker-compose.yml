@@ -1,0 +1,7 @@
+notebook:
+  build: services/ipython-notebook
+  volumes:
+    - workspace:/workspace
+  working_dir: /workspace
+  ports:
+    - 80:8888
