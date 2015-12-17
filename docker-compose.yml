@@ -1,7 +1,8 @@
 notebook:
-  build: services/ipython-notebook
-  volumes:
-    - workspace:/workspace
-  working_dir: /workspace
+  image: jupyter/scipy-notebook
   ports:
     - 80:8888
+  volumes:
+    - ./workspace:/home/jovyan/work
+    - ~/data/tcga/prad:/data
+    - /output
