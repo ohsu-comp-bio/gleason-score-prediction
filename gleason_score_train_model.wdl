@@ -1,52 +1,44 @@
-task query_elasticsearch {
-     String server
-     String query
-     String outputIds
-     String outputFile
-
-}
-
-
 task collect_features {
-    Array[String]+ featureFiles
-    Array[String]? fileIds
-    String outputFile
-    
-    command {
-    collect_features.py --input-files ${sep=' ' featureFiles} \
-                        ${"--input-file_ids " + fileIds} \
-                        --output-file ${outputFile}
-    }
+  Array[String]+ featureFiles
+  Array[String]? fileIds
+  String outputFile
+  
+  command {
+    /bin/collect_features --input-files ${sep=' ' featureFiles} \
+                          --input-file-ids ${sep=' ' fileIds} \
+                          --output-file ${outputFile}
+  }
 
-    output {
-        String featureMatrix = "${outputFile}"
-    }
+  output {
+    String featureMatrix = "${outputFile}"
+  }
+
+  runtime {
+    docker: "gleason_score_train_model"
+  }
 }
-
 
 task train_model {
-    String gene_expression_data_file
-    String clinical_data_file
+  String gene_expression_data_file
+  String clinical_data_file
 
-    command {
-    clinical_data=${clinical_data_file} \
-    gene_expression_data=${gene_expression_data_file} \
-    jupyter-nbconvert --to html --execute \
-    ${notebook}
-    }
+  command {
+    CLINICAL_DATA=${clicical_data_file} \
+    GENE_EXPRESSOIN_DATA=${gene_expression_data_file} \
+    /bin/build_model
+  }
 
-    output {
-    String html_report "${notebook}.html"
-    String model_binary "pipeline.pickle"
-    }
+  output {
+    String html_report = "/out/model-diagnostics.html"
+    String model_binary = "/out/model.pickle"
+  }
 
-    runtime {
-        tool: ""
-        strategy: ""
-    }
+  runtime {
+    docker: "gleason_score_train_model"
+  }
 }
 
-
 workflow gleason_score_prediction {
-    call train_model
+  call collect_features
+  call train_model
 }

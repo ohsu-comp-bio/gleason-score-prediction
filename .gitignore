@@ -1,4 +1,5 @@
-.DS_Store
-workspace/.ipynb_checkpoints/*
-workspace/*.png
 *.pickle
+.DS_Store
+cromwell-executions/
+workspace/*.png
+workspace/.ipynb_checkpoints/*

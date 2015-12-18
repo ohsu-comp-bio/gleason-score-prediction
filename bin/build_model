@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ipython nbconvert --execute --to html "/home/jovyan/work/Gleason Score Model Building.ipynb" --stdout > /out/model-diagnostics.html

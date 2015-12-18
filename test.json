@@ -1,0 +1,15 @@
+{
+  "gleason_score_prediction.collect_features.featureFiles": [
+    "/data/unc.edu.fc25b041-1fcb-456b-8e55-28b74a32ab91.1984166.rsem.genes.normalized_results",
+    "/data/unc.edu.fe001be4-0c13-4754-8888-3961c98ccfe9.2603836.rsem.genes.normalized_results",
+    "/data/unc.edu.fff1f232-8978-406d-a6fc-61df98382b86.1545514.rsem.genes.normalized_results"
+  ],
+  "gleason_score_prediction.fileIds": [
+    "fc25b041-1fcb-456b-8e55-28b74a32ab91",
+    "fe001be4-0c13-4754-8888-3961c98ccfe9",
+    "fff1f232-8978-406d-a6fc-61df98382b86"
+  ],
+  "gleason_score_prediction.collect_features.outputFile": "/data/combined_features.tsv",
+  "gleason_score_prediction.train_model.gene_expression_data_file": "/data/combined_feature.tsv",
+  "gleason_score_prediction.train_model.clinical_data_file": "/data/clinical_data.tsv"
+}

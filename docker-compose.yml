@@ -1,8 +1,9 @@
 notebook:
-  image: jupyter/scipy-notebook
+  build: .
   ports:
     - 80:8888
   volumes:
     - ./workspace:/home/jovyan/work
-    - ~/data/tcga/prad:/data
+    - ./data/tcga/prad:/data
     - /output
+  command: start-notebook.sh
