@@ -5,6 +5,45 @@ In addition, it provides a configuration that allows a researcher to develop
 code within the same Docker-based environment that is used for model building
 in production.
 
+## Project Structure ##
+
+
+```
+.
+├── Dockerfile                     # Dockerfile for building image containing
+|                                  # environment for model development and
+|                                  # building.
+├── README.md
+|
+├── bin
+│   ├── build_model                # Script to build model.
+|   |
+│   ├── collect_features           # Script to join features across input files.
+|   |
+│   └── query_es                   # Script to fetch features from
+|                                  # ElasticSearch.
+├── data
+│   └── ...                        # Sample data. Used for hosting "inputs" to
+|                                  # workflow. We mount this volume to the
+|                                  # Docker container at runtime.
+|
+├── docker-compose.yml             # Docker Compose configuration so we can
+|                                  # develop our notebook.
+|
+├── gleason_score_train_model.wdl  # WDL workflow for executing the
+|                                  # modle-building process.
+|
+├── output                         # Directory containing outputs from the
+|                                  # workflow.
+|
+├── test.json                      # Workflow configuration to run the pipeline
+|                                  # with sample data.
+|
+└── workspace                      # Workspace for developing the notebook. Note
+    └── ...                        # that the script to build the model is
+                                   # located here.
+```
+
 
 ### Model Development ###
 
@@ -18,12 +57,6 @@ in production.
 
     + Activate that machine with `eval $(docker-machine env gleason-score)`
 
-  + Optionally, if using OSX, install [Pow](http://pow.cx/). This allows you to
-    access IPython Notebook via [http://gleason-score.dev](http://gleason-score.dev).
-
-      + Run `echo $DOCKER_HOST | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' > ~/.pow/$DOCKER_MACHINE_NAME`
-
 2. Spin up IPython Notebook with `docker-compose up`.
 
-3. Access IPython Notebook via [http://gleason-score.dev](http://gleason-score.dev) (OS X)
-  or via the virtual machine IP (`docker-machine ip gleason-score`).
+3. Access IPython Notebook via the virtual machine IP (`docker-machine ip gleason-score`).
