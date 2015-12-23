@@ -48,7 +48,7 @@ task train_model {
   command {
     KEY=${key} \
     CLINICAL_DATA=${clicical_data_file} \
-    GENE_EXPRESSOIN_DATA=${gene_expression_data_file} \
+    GENE_EXPRESSION_DATA=${gene_expression_data_file} \
     /bin/build_model
   }
 
