@@ -3,3 +3,4 @@
 cromwell-executions/
 workspace/*.png
 workspace/.ipynb_checkpoints/*
+cromwell-*.jar

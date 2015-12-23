@@ -18,10 +18,12 @@ task collect_features {
 }
 
 task train_model {
+  String key
   String gene_expression_data_file
   String clinical_data_file
 
   command {
+    KEY=${key} \
     CLINICAL_DATA=${clicical_data_file} \
     GENE_EXPRESSOIN_DATA=${gene_expression_data_file} \
     /bin/build_model
