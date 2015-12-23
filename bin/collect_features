@@ -29,16 +29,13 @@ def collectArgs():
 
 
 def collectFeatures(files, ids):
-    featureMatrix = pd.DataFrame()
-    for file, id in zip(files, ids):
-        file_basename = id if id else os.path.basename(file)
-        features = pd.read_csv(file, sep="\t", index_col=0)
-        features.columns = ['gene_id', file_basename]
-
+    for f, i in zip(files, ids):
+        file_basename = i if i else os.path.basename(f)
+        features = pd.read_csv(f, sep="\t", index_col=0)
+        features.columns = [file_basename]
         try:
-            featureMatrix = pd.merge(featureMatrix, features, how="outer",
-                                     on="gene_id")
-        except IndexError:
+            featureMatrix = featureMatrix.join(features, how="inner")
+        except NameError:
             featureMatrix = features
 
     return featureMatrix
@@ -48,7 +45,7 @@ if __name__ == '__main__':
 
     parser = collectArgs()
     args = parser.parse_args()
-
+    
     if args.file_ids is not None:
         if len(args.file_ids) != len(args.files):
             print("The number of input files must be the same as the number of \
