@@ -36,8 +36,8 @@ in production.
 ├── output                         # Directory containing outputs from the
 |                                  # workflow.
 |
-├── test.json                      # Workflow configuration to run the pipeline
-|                                  # with sample data.
+├── gleason_score_train_model.json.template # Workflow configuration to run the pipeline
+|                                           # with sample data.
 |
 └── workspace                      # Workspace for developing the notebook. Note
     └── ...                        # that the script to build the model is
