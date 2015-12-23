@@ -1,3 +1,26 @@
+task query_es {
+  String server
+  String query
+  Array[String]? fields
+  String outputDir
+  
+  command {
+    /bin/query_es -s ${server} \
+                  -q ${query} \
+                  -f ${sep=' ' fields} \
+                  -o ${outputDir} \
+                  --output-json-fields
+  }
+
+  output {
+    String metadata = "${outputDir}/es_query_results.txt"
+    String individual_id = "${outputDir}/individual_id.json"
+    String ccc_did = "${outputDir}/ccc_did.json"
+  }
+
+}
+
+
 task collect_features {
   Array[String]+ featureFiles
   Array[String]? fileIds
@@ -35,8 +58,14 @@ task train_model {
 }
 
 workflow gleason_score_prediction {
-  call collect_features 
-  call train_model {
-    input: gene_expression_file = collect_features.featureMatrix
+  call query_es
+
+  call collect_features {
+    input: featureFiles = query_es.ccc_did, fileIds = query_es.individual_id
   }
+  
+  call train_model {
+    input: gene_expression_data_file = collect_features.featureMatrix, clinical_data_file = query_es.metadata
+  }
+
 }

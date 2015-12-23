@@ -1,0 +1,8 @@
+{
+  "gleason_score_prediction.query_es.outputDir": "String",
+  "gleason_score_prediction.collect_features.outputFile": "String",
+  "gleason_score_prediction.query_es.server": "String",
+  "gleason_score_prediction.query_es.fields": "(optional) Array[String]",
+  "gleason_score_prediction.query_es.query": "String",
+  "gleason_score_prediction.collect_features.outputDir": "String"
+}

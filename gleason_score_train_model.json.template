@@ -1,0 +1,10 @@
+ERROR: Call references an input on task 'train_model' that doesn't exist (line 40, col 12)
+
+    input: gene_expression_file = collect_features.featureMatrix
+           ^
+
+Task defined here (line 20, col 6):
+
+task train_model {
+     ^
+     

@@ -4,6 +4,8 @@ from __future__ import print_function
 
 import argparse
 import os
+import sys
+import json
 import pandas as pd
 
 
@@ -21,8 +23,11 @@ def collectArgs():
     parser.add_argument("-I", "--input-file-ids", dest="file_ids", nargs="+",
                         required=False,
                         help="IDs to use as column names in merged matrix")
+    parser.add_argument("-d", "--output-dir", dest="output_dir",
+                        default="./",
+                        help="results will be written to this directory.")
     parser.add_argument("-o", "--output-file", dest="output_file",
-                        required=True,
+                        default="featureMatrix.txt",
                         help="tab separated values will be written to this \
                         file")
     return parser
@@ -42,17 +47,35 @@ def collectFeatures(files, ids):
 
 
 if __name__ == '__main__':
-
     parser = collectArgs()
     args = parser.parse_args()
-    
+
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
+
+    if args.files is not None:
+        if len(args.files) == 1:
+            try:
+                files = json.loads(open(args.files[0], "r").readlines()[0])
+            except IOError:
+                pass
+        else:
+            files = args.files
+
     if args.file_ids is not None:
-        if len(args.file_ids) != len(args.files):
-            print("The number of input files must be the same as the number of \
-            IDs supplied.")
-            exit(1)
+        if len(args.file_ids) == 1:
+            try:
+                file_ids = json.loads(open(args.file_ids[0], "r").readlines()[0])
+            except IOError:
+                pass
+        else:
+            file_ids = args.file_ids
 
-    featureMatrix = collectFeatures(args.files, args.file_ids)
+        if len(file_ids) != len(files):
+            print("The number of input files must be the same as the number of IDs supplied.")
+            sys.exit(1)
 
-    featureMatrix.to_csv(args.output_file, sep="\t", header=True, index=True,
-                         index_label="gene_id")
+    featureMatrix = collectFeatures(files, file_ids)
+
+    featureMatrix.to_csv(args.output_dir + "/" + args.output_file, sep="\t",
+                         header=True, index=True, index_label="gene_id")
